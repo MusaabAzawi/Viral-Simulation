@@ -20,6 +20,9 @@
 #include <math.h>
 #include "html_canvas.h"
 #include "ChartJS_handler.h"
+#include "Strategies/MovementStrategy.h"
+#include "Strategies/LockdownMovement.h"
+#include "Strategies/RegularMovement.h"
 
 //Constants to control the simulation
 const int SUBJECT_COUNT = 200;
@@ -49,10 +52,27 @@ int main() {
         su.set_dx(dist_dx(mt));
         su.set_dy(dist_dy(mt));
 
-        if(i == SUBJECT_COUNT-1)
+        if(i == SUBJECT_COUNT * 0.25)
+        {   
+            LockdownMovement lockdown;
+            su.set_strategy(&lockdown);
+        //    su.infect();
+        }
+        else
+        {
+            /* code */
+            RegularMovement regular;
+            su.set_strategy(&regular);
+        }
+
+        if (i == 10)
+        
         {
             su.infect();
+
         }
+        
+        
 
         s.add_subject(std::move(su));
     }  

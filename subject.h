@@ -14,7 +14,9 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#pragma once 
+#pragma once
+
+#include "Strategies/MovementStrategy.h"
 
 namespace corsim
 {
@@ -36,10 +38,13 @@ class Subject
         int radius(); //Radius needed for collisions
         void set_dx(double dx);
         void set_dy(double dy);
+        void set_strategy(MovementStrategy *strategy);
+        int get_speed();
         bool infected();
         void infect();
         double angle();
         double speed();
+        MovementStrategy *strategy;
     private:
         double _x = 0,_y = 0, _dx = 0, _dy = 0;
         bool _infected = false;

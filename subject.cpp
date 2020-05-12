@@ -68,6 +68,13 @@ void Subject::set_dy(double dy)
     this->_dy = dy;
 }
 
+void Subject::set_strategy(MovementStrategy *strategy){
+    this->strategy = strategy;
+}
+int Subject::get_speed(){
+    return this->strategy->get_speed();
+}
+
 int Subject::radius()
 {
     return this->_radius;
