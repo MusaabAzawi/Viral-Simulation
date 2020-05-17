@@ -27,7 +27,7 @@ enum CanvasColor
     ORANGE,
     BLACK,
     SHADE_BLUE,
-    SHADE_ORANGE
+    SHADE_ORANGE,
 };
 
 /**

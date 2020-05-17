@@ -1,15 +1,14 @@
 #include "MovementStrategy.h"
 #include "RegularMovement.h"
 
+namespace Strategies
+{
 // Set this speed when class object is created
-RegularMovement::RegularMovement(){
-    this->set_speed(1000/100);
-}
+    RegularMovement::RegularMovement(){
+    }
 
-void RegularMovement::set_speed(double speed){
-    this->speed = speed;
-}
+    double RegularMovement::set_speed(){
+        return 2.50;
+    }
 
-int  RegularMovement::get_speed(){
-    return this->speed;
 }

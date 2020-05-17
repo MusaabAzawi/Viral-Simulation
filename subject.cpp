@@ -68,12 +68,6 @@ void Subject::set_dy(double dy)
     this->_dy = dy;
 }
 
-void Subject::set_strategy(MovementStrategy *strategy){
-    this->strategy = strategy;
-}
-int Subject::get_speed(){
-    return this->strategy->get_speed();
-}
 
 int Subject::radius()
 {
@@ -99,5 +93,58 @@ double Subject::speed()
 {
     return sqrt(_dx * _dx + _dy * _dy);
 }
+
+void Subject::set_strategy(Strategies::MovementStrategy *strategy){
+    this->_strategy = strategy;
+}
+
+void Subject::StartInfection()
+{
+    this->_hasInfection = true;
+}
+
+bool Subject::hasInfection()
+{
+    return _hasInfection;
+}
+
+int Subject::infectionPeriod()
+{
+    return countDays;
+}
+
+void Subject::countInfectionPeriod()
+{
+    this->countDays++;
+}
+
+int Subject::immmuntyDays()
+{
+    return _immunityDays;
+}
+
+void Subject::immunityPeriod()
+{
+    this->_immunityDays++;
+}
+
+bool Subject::immuned()
+{
+    return this->_immuned;
+}
+
+void Subject::setImmunityoff()
+{
+    this->_immuned = false;
+}
+
+void Subject::cure()
+{
+    this->_infected = false;
+    this->_immuned = true;
+    this->countDays = 0;
+    this->_immunityDays = 0;
+}
+
 
 }

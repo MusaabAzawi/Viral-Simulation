@@ -28,6 +28,8 @@ namespace corsim
 class Subject
 {
     public:
+
+        // Getters and setters
         Subject(int x, int y, int radius, bool infected);
         double x();
         double y();
@@ -38,17 +40,36 @@ class Subject
         int radius(); //Radius needed for collisions
         void set_dx(double dx);
         void set_dy(double dy);
-        void set_strategy(MovementStrategy *strategy);
-        int get_speed();
         bool infected();
         void infect();
         double angle();
         double speed();
-        MovementStrategy *strategy;
+        void set_strategy(Strategies::MovementStrategy *strategy);
+        Strategies::MovementStrategy *_strategy = nullptr;
+
+        void StartInfection();
+        bool hasInfection();
+        int infectionPeriod();
+        void countInfectionPeriod();
+        // Member function, start/end immmunty 
+        bool immuned();
+        int immmuntyDays();
+        void setImmunityoff();
+        void immunityPeriod();
+        void cure();
+        
+        
     private:
         double _x = 0,_y = 0, _dx = 0, _dy = 0;
         bool _infected = false;
         int _radius = 0;
-};
+        int countDays = 0;
+        int _immunityDays = 0;
+        bool _immuned = false;
+        bool _hasInfection = false;
+
+
 
 };
+
+}

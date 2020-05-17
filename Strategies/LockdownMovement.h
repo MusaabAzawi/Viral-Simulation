@@ -1,12 +1,15 @@
 #include "MovementStrategy.h"
 
+namespace Strategies
+{
+    // Add virtual keyword to avoid unnecessary obj instantiation
 class  LockdownMovement : virtual public MovementStrategy{
 
     public:
     LockdownMovement();
-    void set_speed(double speed);
-    int get_speed();
+    double set_speed();
     
     
 
 };
+}

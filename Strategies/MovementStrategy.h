@@ -1,13 +1,15 @@
 
 #pragma once
-
+namespace Strategies
+{
+    
 class MovementStrategy
 {
+    public:
+     
+        virtual double set_speed()= 0;
+      
 
-public:
-int speed;
-virtual void set_speed(double speed)= 0;
-virtual int get_speed()= 0;
 
-
-};
+    };
+}

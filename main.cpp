@@ -29,6 +29,9 @@ const int SUBJECT_COUNT = 200;
 const int SIM_WIDTH = 800;
 const int SIM_HEIGHT = 500;
 const int SUBJECT_RADIUS = 2;
+Strategies::LockdownMovement lockdownstgy;
+Strategies::RegularMovement regularstgy;
+
 
 int main() {
     corsim::Simulation s(SIM_WIDTH,SIM_HEIGHT,std::make_unique<corsim::HTMLCanvas>(30,150,SIM_WIDTH,SIM_HEIGHT),
@@ -41,7 +44,8 @@ int main() {
     std::uniform_real_distribution<double> dist_h(1.0, SIM_HEIGHT);
     std::uniform_real_distribution<double> dist_dx(-1.0, 1.0);
     std::uniform_real_distribution<double> dist_dy(-1.0, 1.0);
-
+    // 75% of the subject are locked
+    int limit = (int)std::floor(SUBJECT_COUNT * 0.75 );
     for (int i = 0; i<SUBJECT_COUNT; ++i)
     {
         double x = dist_w(mt); //Randomly generate x position
@@ -51,29 +55,28 @@ int main() {
 
         su.set_dx(dist_dx(mt));
         su.set_dy(dist_dy(mt));
-
-        if(i == SUBJECT_COUNT * 0.25)
-        {   
-            LockdownMovement lockdown;
-            su.set_strategy(&lockdown);
-        //    su.infect();
-        }
-        else
-        {
-            /* code */
-            RegularMovement regular;
-            su.set_strategy(&regular);
-        }
-
-        if (i == 10)
+        
+        if (i == 1)
         
         {
             su.infect();
 
         }
-        
-        
 
+        if(i < limit)
+        {   
+            
+            su.set_strategy(&lockdownstgy);
+        //    su.infect();
+        }
+        else
+        {
+            /* code */
+            
+            su.set_strategy(&regularstgy);
+        }
+
+    
         s.add_subject(std::move(su));
     }  
 

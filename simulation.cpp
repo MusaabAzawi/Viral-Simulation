@@ -61,6 +61,10 @@ void Simulation::tick()
         collision_checker.emplace_back(&s);
 
         wall_collision(s);
+
+        // Set speed according to the strategy
+        s.set_x(s.x() + s.dx() * s._strategy->set_speed());
+        s.set_y(s.y() + s.dy() * s._strategy->set_speed()); 
     }
 
     for(int i = collision_checker.size()-1; i < collision_checker.size(); i--)
@@ -78,13 +82,33 @@ void Simulation::tick()
 
     for(Subject& s : _subjects)
     {
-        s.set_x(s.x() + s.dx() * dt);
-        s.set_y(s.y() + s.dy() * dt);
+        // Apply strategy
+        s.set_x(s.x() + s.dx() * s._strategy->set_speed());
+        s.set_y(s.y() + s.dy() * s._strategy->set_speed());
 
         if(s.infected())
         {
             numberInfected++;
+            s.countInfectionPeriod();
         }
+
+        //if Infection periode 250 days then cure.
+        if(s.infectionPeriod() > 250)
+        {
+            s.cure();
+        }
+
+        //if subject infected before. Start immunityPeriod    
+        if (s.hasInfection() && s.immuned())
+        {
+            s.immunityPeriod();
+        }
+
+        //Lose immunty after 120 days
+        if(s.immmuntyDays() > 120)
+        {
+            s.setImmunityoff();
+        } 
     }
 
     if(counter % 30 == 0)
@@ -111,6 +135,10 @@ void Simulation::draw_to_canvas()
         if(s.infected())
         {
             c = RED;
+        }
+        if(s.immuned())
+        {
+            c = GREEN;
         }
 
         _canvas.get()->draw_ellipse(s.x(), s.y(), s.radius(), c);
@@ -154,8 +182,23 @@ void Simulation::subject_collision(Subject& s1, Subject& s2)
     {
         if(s1.infected() || s2.infected())
         {
-            s1.infect();
-            s2.infect();
+            // Do not reinfect if subject immuned
+            if (!s1.immuned())
+            {
+                s1.infect();
+                // start counting until imunity for s1 subject
+                s1.StartInfection();
+                /* code */
+            }
+            if (!s2.immuned())
+            {
+                s2.infect();
+                // start counting until imunity for s2 subject
+                s2.StartInfection();
+
+            }
+            
+            
         }        
 
         double theta1 = s1.angle();
